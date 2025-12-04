@@ -1,40 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>THÊM KEY MODULE</title>
+<title>Quản lý KEY</title>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
+<!-- CSS -->
+<style>
+body{
+  font-family: Arial;
+  background:#0a0a0a;
+  color:white;
+  text-align:center;
+}
+.container{
+  width:90%;
+  margin:auto;
+  padding:15px;
+  background:#101010;
+  border-radius:8px;
+}
+input{
+  width:90%;
+  padding:8px;
+  margin:3px;
+  border-radius:6px;
+  border:none;
+}
+button{
+  background:#6a5acd;
+  padding:8px 15px;
+  color:white;
+  border:none;
+  margin:5px;
+  border-radius:6px;
+  font-weight:bold;
+}
+table{
+  width:100%;
+  margin-top:10px;
+  border-collapse:collapse;
+}
+th, td{
+  border:1px solid #444;
+  padding:6px;
+}
+</style>
+
 </head>
 <body>
-<h2>Thêm thiết bị mới</h2>
 
-<input id="key" placeholder="Tên key (ví dụ: ductrongcc3m)"> <br><br>
-<input id="android_id" placeholder="Android ID"> <br><br>
-<input id="serial" placeholder="Serial thiết bị"> <br><br>
-<input id="expire" placeholder="Ngày hết hạn yyyy-mm-dd"> <br><br>
+<h2>🔥 QUẢN LÝ KEY MODULE</h2>
 
-<button onclick="add()">Thêm vào Server 🔥</button>
+<div class="container">
+  <input id="key" placeholder="Tên key">
+  <input id="android_id" placeholder="Android ID">
+  <input id="serial" placeholder="Serial thiết bị">
+  
+  <button onclick="add()">Thêm Key</button>
+</div>
+
+<div class="container">
+  <h3>Danh sách KEY</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Android ID</th>
+        <th>Serial</th>
+        <th>Hết hạn</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+</div>
 
 <script>
-  // ===== Firebase Config =====
-  var firebaseConfig = {
-    databaseURL: "https://database-key-cc2b9-default-rtdb.asia-southeast1.firebasedatabase.app/"
-  };
-  firebase.initializeApp(firebaseConfig);
+var firebaseConfig = {
+  databaseURL: "https://database-key-cc2b9-default-rtdb.asia-southeast1.firebasedatabase.app/"
+};
+firebase.initializeApp(firebaseConfig);
 
-  function add(){
-    let key = document.getElementById("key").value;
-    let android = document.getElementById("android_id").value;
-    let serial = document.getElementById("serial").value;
-    let expire = document.getElementById("expire").value;
+function getExpireDate(){
+    let d = new Date();
+    d.setDate(d.getDate() + 30);
+    return d.toISOString().split("T")[0];
+}
 
-    firebase.database().ref("keys/" + key).set({
+function add(){
+  let key = document.getElementById("key").value;
+  let android = document.getElementById("android_id").value;
+  let serial = document.getElementById("serial").value;
+
+  firebase.database().ref("keys/"+key).set({
       android_id: android,
       serial: serial,
-      expire: expire
+      expire: getExpireDate()
+  });
+
+  alert("Đã lưu!");
+}
+
+firebase.database().ref("keys").on("value",snap=>{
+  let html="";
+  snap.forEach(k=>{
+    let val = k.val();
+    html+=`
+      <tr>
+        <td>${k.key}</td>
+        <td>${val.android_id}</td>
+        <td>${val.serial}</td>
+        <td>${val.expire}</td>
+        <td>
+           <button onclick="edit('${k.key}')">✏ Sửa</button>
+           <button onclick="del('${k.key}')">🗑 Xóa</button>
+        </td>
+      </tr>
+    `;
+  });
+  document.getElementById("data").innerHTML=html;
+});
+
+function del(id){
+  if(confirm("Xóa key này?")){
+    firebase.database().ref("keys/"+id).remove();
+  }
+}
+
+function edit(id){
+  let newSerial = prompt("Serial mới:");
+  let newAndroid = prompt("Android ID mới:");
+
+  firebase.database().ref("keys/"+id).update({
+      serial: newSerial,
+      android_id: newAndroid
+  });
+}
+</script>
+
+</body>
+</html>      expire: expire
     });
 
     alert("Đã thêm key thành công!");
