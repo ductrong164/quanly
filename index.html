@@ -143,6 +143,90 @@ function edit(id){
 </script>
 
 </body>
+</html>  
+  <button onclick="add()">Thêm Key</button>
+</div>
+
+<div class="container">
+  <h3>Danh sách KEY</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Android ID</th>
+        <th>Serial</th>
+        <th>Hết hạn</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+</div>
+
+<script>
+var firebaseConfig = {
+  databaseURL: "https://database-key-cc2b9-default-rtdb.asia-southeast1.firebasedatabase.app/"
+};
+firebase.initializeApp(firebaseConfig);
+
+function getExpireDate(){
+    let d = new Date();
+    d.setDate(d.getDate() + 30);
+    return d.toISOString().split("T")[0];
+}
+
+function add(){
+  let key = document.getElementById("key").value;
+  let android = document.getElementById("android_id").value;
+  let serial = document.getElementById("serial").value;
+
+  firebase.database().ref("keys/"+key).set({
+      android_id: android,
+      serial: serial,
+      expire: getExpireDate()
+  });
+
+  alert("Đã lưu!");
+}
+
+firebase.database().ref("keys").on("value",snap=>{
+  let html="";
+  snap.forEach(k=>{
+    let val = k.val();
+    html+=`
+      <tr>
+        <td>${k.key}</td>
+        <td>${val.android_id}</td>
+        <td>${val.serial}</td>
+        <td>${val.expire}</td>
+        <td>
+           <button onclick="edit('${k.key}')">✏ Sửa</button>
+           <button onclick="del('${k.key}')">🗑 Xóa</button>
+        </td>
+      </tr>
+    `;
+  });
+  document.getElementById("data").innerHTML=html;
+});
+
+function del(id){
+  if(confirm("Xóa key này?")){
+    firebase.database().ref("keys/"+id).remove();
+  }
+}
+
+function edit(id){
+  let newSerial = prompt("Serial mới:");
+  let newAndroid = prompt("Android ID mới:");
+
+  firebase.database().ref("keys/"+id).update({
+      serial: newSerial,
+      android_id: newAndroid
+  });
+}
+</script>
+
+</body>
 </html>      expire: expire
     });
 
