@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>THÊM KEY MODULE</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+</head>
+<body>
+<h2>Thêm thiết bị mới</h2>
+
+<input id="key" placeholder="Tên key (ví dụ: ductrongcc3m)"> <br><br>
+<input id="android_id" placeholder="Android ID"> <br><br>
+<input id="serial" placeholder="Serial thiết bị"> <br><br>
+<input id="expire" placeholder="Ngày hết hạn yyyy-mm-dd"> <br><br>
+
+<button onclick="add()">Thêm vào Server 🔥</button>
+
+<script>
+  // ===== Firebase Config =====
+  var firebaseConfig = {
+    databaseURL: "https://database-key-cc2b9-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  function add(){
+    let key = document.getElementById("key").value;
+    let android = document.getElementById("android_id").value;
+    let serial = document.getElementById("serial").value;
+    let expire = document.getElementById("expire").value;
+
+    firebase.database().ref("keys/" + key).set({
+      android_id: android,
+      serial: serial,
+      expire: expire
+    });
+
+    alert("Đã thêm key thành công!");
+  }
+</script>
+
+</body>
+</html>
