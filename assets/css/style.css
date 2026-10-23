@@ -82,9 +82,7 @@ body::before {
   gap: 20px;
 }
 
-.site-header {
-  text-align: center;
-}
+.site-header { text-align: center; }
 
 .logo {
   margin: 0;
@@ -139,13 +137,7 @@ body::before {
   background: linear-gradient(90deg, transparent, rgba(78, 225, 255, 0.8), transparent);
 }
 
-.badge-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  z-index: 1;
-}
+.badge-row { display: flex; align-items: center; gap: 8px; }
 
 .badge {
   display: inline-flex;
@@ -173,8 +165,6 @@ body::before {
 }
 
 .card-title {
-  position: relative;
-  z-index: 1;
   margin: 18px 0 8px;
   font-size: clamp(1.45rem, 3vw, 1.8rem);
   line-height: 1.2;
@@ -183,8 +173,6 @@ body::before {
 }
 
 .card-desc {
-  position: relative;
-  z-index: 1;
   margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
@@ -192,8 +180,6 @@ body::before {
 }
 
 .steps {
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -219,28 +205,18 @@ body::before {
   display: inline-block;
   border: 2px solid rgba(159, 182, 211, 0.9);
   background: transparent;
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.02);
 }
 
-.step-dot.pending {
-  border-color: rgba(159, 182, 211, 0.9);
-}
-
-.step-dot.done,
-.step-dot.active {
+.step-dot.pending { border-color: rgba(159, 182, 211, 0.9); }
+.step-dot.done, .step-dot.active {
   background: var(--green);
   border-color: var(--green);
   box-shadow: 0 0 12px rgba(49, 224, 161, 0.7);
 }
 
-.step-arrow {
-  opacity: 0.8;
-  color: var(--muted);
-}
+.step-arrow { opacity: 0.8; color: var(--muted); }
 
 .field-label {
-  position: relative;
-  z-index: 1;
   display: block;
   margin-top: 18px;
   margin-bottom: 10px;
@@ -251,11 +227,7 @@ body::before {
   text-transform: uppercase;
 }
 
-.select-wrapper {
-  position: relative;
-  z-index: 1;
-  user-select: none;
-}
+.select-wrapper { position: relative; user-select: none; }
 
 .select-display {
   width: 100%;
@@ -303,9 +275,7 @@ body::before {
   z-index: 40;
 }
 
-.select-wrapper.open .dropdown {
-  display: block;
-}
+.select-wrapper.open .dropdown { display: block; }
 
 .dropdown-item {
   padding: 13px 16px;
@@ -316,9 +286,7 @@ body::before {
   transition: background .15s ease, border-color .15s ease, transform .15s ease;
 }
 
-.dropdown-item:hover {
-  background: rgba(15, 23, 42, 0.9);
-}
+.dropdown-item:hover { background: rgba(15, 23, 42, 0.9); }
 
 .dropdown-item.selected {
   background: linear-gradient(90deg, rgba(78, 225, 255, 0.12), rgba(139, 92, 246, 0.08));
@@ -326,26 +294,9 @@ body::before {
   color: var(--cyan);
 }
 
-.dropdown-item.selected::after {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 10px rgba(78, 225, 255, 0.75);
-  margin-left: auto;
-  float: right;
-  margin-top: 5px;
-}
-
-#hwidInput {
-  display: none;
-}
+#hwidInput { display: none; }
 
 .btn-primary {
-  position: relative;
-  z-index: 1;
   width: 100%;
   margin-top: 20px;
   padding: 16px 18px;
@@ -371,14 +322,8 @@ body::before {
   box-shadow: 0 18px 34px rgba(0, 212, 255, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: wait;
-}
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.7; cursor: wait; }
 
 .btn-secondary {
   display: inline-flex;
@@ -394,20 +339,9 @@ body::before {
   transition: border-color .15s ease, color .15s ease, transform .15s ease;
 }
 
-.btn-secondary:hover {
-  border-color: rgba(78, 225, 255, 0.5);
-  color: var(--cyan);
-  transform: translateY(-1px);
-}
-
-.card-done {
-  align-items: center;
-  text-align: center;
-}
+.card-done { align-items: center; text-align: center; }
 
 .success-icon {
-  position: relative;
-  z-index: 1;
   width: 78px;
   height: 78px;
   margin: 8px auto 12px;
@@ -422,8 +356,6 @@ body::before {
 }
 
 .key-meta {
-  position: relative;
-  z-index: 1;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -432,8 +364,6 @@ body::before {
 }
 
 .key-box {
-  position: relative;
-  z-index: 1;
   width: 100%;
   margin-top: 16px;
   padding: 16px 18px;
@@ -465,42 +395,19 @@ body::before {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform .15s ease, background .15s ease;
-}
-
-.copy-btn:hover {
-  background: rgba(78, 225, 255, 0.12);
-  transform: translateY(-1px);
 }
 
 .expire-note {
-  position: relative;
-  z-index: 1;
   margin-top: 12px;
   color: var(--muted);
   font-size: 0.78rem;
 }
 
-.expire-note strong {
-  color: var(--text);
-}
+.expire-note strong { color: var(--text); }
 
 @media (max-width: 420px) {
-  .page-wrapper {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .card {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .select-display {
-    min-height: 54px;
-  }
-
-  .btn-primary {
-    font-size: 0.88rem;
-  }
+  .page-wrapper { padding-left: 12px; padding-right: 12px; }
+  .card { padding-left: 16px; padding-right: 16px; }
+  .select-display { min-height: 54px; }
+  .btn-primary { font-size: 0.88rem; }
 }

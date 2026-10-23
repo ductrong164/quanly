@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config.php';
 
 // Lấy danh sách app đang active
-$apps = db()->query("SELECT app_id, app_name FROM apps WHERE active=1 ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
+$apps = db()->query("SELECT app_id, app_name FROM apps WHERE status = 'active' ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -25,33 +25,22 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE active=1 ORDER BY a
 
   <main>
     <div class="card">
-
       <div class="badge-row">
-        <span class="badge badge-time">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          12 GIỜ
-        </span>
+        <span class="badge badge-time">12 GIỜ</span>
       </div>
 
       <h2 class="card-title">Key 12 Giờ</h2>
       <p class="card-desc">Vượt 1 link layma — key tự động lưu sau khi hoàn thành.</p>
 
       <div class="steps">
-        <div class="step">
-          <div class="step-dot pending"></div>
-          <span>Layma</span>
-        </div>
+        <div class="step"><div class="step-dot pending"></div><span>Layma</span></div>
         <div class="step-arrow">→</div>
-        <div class="step">
-          <div class="step-dot done"></div>
-          <span>Nhận Key</span>
-        </div>
+        <div class="step"><div class="step-dot done"></div><span>Nhận Key</span></div>
       </div>
 
       <form id="getkeyForm" action="start.php" method="POST">
         <label class="field-label">CHỌN ỨNG DỤNG</label>
+
         <div class="select-wrapper" id="selectWrapper">
           <div class="select-display" id="selectDisplay">
             <?php if (!empty($apps)): ?>
@@ -60,8 +49,10 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE active=1 ORDER BY a
               — Chọn App —
             <?php endif; ?>
           </div>
+
           <input type="hidden" name="app_id" id="appIdInput"
                  value="<?= !empty($apps) ? htmlspecialchars($apps[0]['app_id']) : '' ?>">
+
           <div class="dropdown" id="dropdown">
             <?php foreach ($apps as $app): ?>
               <div class="dropdown-item" data-id="<?= htmlspecialchars($app['app_id']) ?>">
@@ -81,7 +72,6 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE active=1 ORDER BY a
           Lấy Key 12 Giờ
         </button>
       </form>
-
     </div>
   </main>
 </div>

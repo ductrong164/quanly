@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-$key    = trim($_GET['key']    ?? '');
+$key = trim($_GET['key'] ?? '');
 $cached = isset($_GET['cached']);
 
 if ($key === '') {
@@ -9,13 +9,7 @@ if ($key === '') {
     exit;
 }
 
-// Lấy thông tin key
-$stmt = db()->prepare("
-    SELECT k.key_value, k.expires_at, a.app_name
-    FROM `keys` k
-    JOIN apps a ON a.app_id = k.app_id
-    WHERE k.key_value=? LIMIT 1
-");
+$stmt = db()->prepare("SELECT k.key_value, k.expires_at, a.app_name FROM keys k JOIN apps a ON a.app_id = k.app_id WHERE k.key_value = ? LIMIT 1");
 $stmt->bind_param('s', $key);
 $stmt->execute();
 $info = $stmt->get_result()->fetch_assoc();
@@ -26,10 +20,10 @@ if (!$info) {
 }
 
 $expires = new DateTime($info['expires_at']);
-$now     = new DateTime();
-$diff    = $now->diff($expires);
+$now = new DateTime();
+$diff = $now->diff($expires);
 $hours_left = ($diff->h + $diff->days * 24);
-$mins_left  = $diff->i;
+$mins_left = $diff->i;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -51,7 +45,6 @@ $mins_left  = $diff->i;
 
   <main>
     <div class="card card-done">
-
       <div class="success-icon">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -85,9 +78,7 @@ $mins_left  = $diff->i;
       </div>
 
       <p class="expire-note">Hết hạn lúc: <strong><?= $expires->format('H:i d/m/Y') ?></strong></p>
-
       <a href="index.php" class="btn-secondary">← Lấy key khác</a>
-
     </div>
   </main>
 </div>
