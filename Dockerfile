@@ -1,10 +1,21 @@
 FROM php:8.2-apache
 
-# Cài đặt extension kết nối MySQL cho PHP
-RUN docker-php-ext-install pdo pdo_mysql
+# Bật extension mysqli + curl
+RUN docker-php-ext-install mysqli && \
+    apt-get update && apt-get install -y libcurl4-openssl-dev && \
+    docker-php-ext-install curl
 
-# Bật rewrite module cho Apache
-RUN a2enmod headers rewrite
+# Bật mod_rewrite cho .htaccess
+RUN a2enmod rewrite headers
 
-# Copy toàn bộ mã nguồn vào thư mục web server
+# Copy toàn bộ source vào web root
 COPY . /var/www/html/
+
+# Cho phép .htaccess hoạt động
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
+# Quyền file
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+
+EXPOSE 80
