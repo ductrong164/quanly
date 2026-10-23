@@ -32,23 +32,43 @@ $token = bin2hex(random_bytes(24));
 $callback = CALLBACK_URL . '?token=' . urlencode($token);
 $backup = SITE_URL . 'index.php';
 
-$layma_url = LAYMA_API
-    . '?tokenUser=' . urlencode(LAYMA_TOKEN)
-    . '&format=text'
-    . '&url=' . urlencode($callback)
-    . '&link_du_phong=' . urlencode($backup);
+$short = null;
 
-$ch = curl_init($layma_url);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 10,
-    CURLOPT_SSL_VERIFYPEER => false,
-]);
-$short = trim(curl_exec($ch));
-$code  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+if (function_exists('curl_init')) {
+    try {
+        $layma_url = LAYMA_API
+            . '?tokenUser=' . urlencode(LAYMA_TOKEN)
+            . '&format=text'
+            . '&url=' . urlencode($callback)
+            . '&link_du_phong=' . urlencode($backup);
 
-if ($code !== 200 || !str_starts_with($short, 'http')) {
+        $ch = curl_init($layma_url);
+        if ($ch === false) {
+            throw new RuntimeException('curl_init failed');
+        }
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => false,
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response !== false && $httpCode === 200) {
+            $short = trim((string) $response);
+        }
+    } catch (Throwable $e) {
+        $short = null;
+    }
+}
+
+if (!$short || !preg_match('#^https?://#i', $short)) {
+    // Fallback: nếu Layma không hoạt động, vẫn cho user tiếp tục lấy key
     header('Location: callback.php?token=' . urlencode($token));
     exit;
 }
