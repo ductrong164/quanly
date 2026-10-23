@@ -10,7 +10,7 @@ define('DB_PASS', $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: 'AVNS_2bfFk9QgVOlKkLd
 define('DB_NAME', $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'defaultdb');
 
 define('SITE_URL',          $_ENV['SITE_URL'] ?? getenv('SITE_URL') ?: 'https://quanly-r5cj.onrender.com');
-define('GITHUB_BYPASS_URL', 'https://ductrong164.github.io/killauth-bypass/');
+define('GITHUB_BYPASS_URL', 'https://ductrong164.github.io/quanly/');
 define('SITE_NAME', 'KillAuth');
 define('ADMIN_TOKEN', 'killauth_admin_' . md5('change_this_secret_2024'));
 
