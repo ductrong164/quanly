@@ -41,16 +41,9 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status = 'active' O
         <label class="field-label">CHỌN ỨNG DỤNG</label>
 
         <div class="select-wrapper" id="selectWrapper">
-          <div class="select-display" id="selectDisplay">
-            <?php if (!empty($apps)): ?>
-              <?= htmlspecialchars($apps[0]['app_name']) ?>
-            <?php else: ?>
-              — Chọn App —
-            <?php endif; ?>
-          </div>
+          <div class="select-display" id="selectDisplay">— Chọn App —</div>
 
-          <input type="hidden" name="app_id" id="appIdInput"
-                 value="<?= !empty($apps) ? htmlspecialchars($apps[0]['app_id']) : '' ?>">
+          <input type="hidden" name="app_id" id="appIdInput" value="">
 
           <div class="dropdown" id="dropdown">
             <?php foreach ($apps as $app): ?>

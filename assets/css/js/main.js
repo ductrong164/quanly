@@ -45,7 +45,11 @@ const hiddenId = document.getElementById('appIdInput');
 const items = document.querySelectorAll('.dropdown-item');
 
 if (wrapper) {
-  if (items.length) items[0].classList.add('selected');
+  const defaultText = '— Chọn App —';
+  display.textContent = defaultText;
+  hiddenId.value = '';
+
+  items.forEach(item => item.classList.remove('selected'));
 
   display.addEventListener('click', () => wrapper.classList.toggle('open'));
 
@@ -53,7 +57,7 @@ if (wrapper) {
     item.addEventListener('click', () => {
       items.forEach(i => i.classList.remove('selected'));
       item.classList.add('selected');
-      display.childNodes[0].textContent = item.textContent.trim();
+      display.textContent = item.textContent.trim();
       hiddenId.value = item.dataset.id;
       wrapper.classList.remove('open');
     });
@@ -70,6 +74,13 @@ const submitBtn = document.getElementById('submitBtn');
 
 if (form) {
   form.addEventListener('submit', async e => {
+    if (!hiddenId.value) {
+      e.preventDefault();
+      alert('Vui lòng chọn ứng dụng trước khi lấy key.');
+      wrapper.classList.add('open');
+      return;
+    }
+
     e.preventDefault();
     submitBtn.disabled = true;
     submitBtn.textContent = 'Đang xử lý…';
