@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config.php';
 
 // Lấy danh sách app đang active
-$apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
+$apps = db()->query("SELECT app_id, app_name FROM apps WHERE active=1 ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -26,7 +26,6 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORD
   <main>
     <div class="card">
 
-      <!-- Badge thời gian -->
       <div class="badge-row">
         <span class="badge badge-time">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -39,7 +38,6 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORD
       <h2 class="card-title">Key 12 Giờ</h2>
       <p class="card-desc">Vượt 1 link layma — key tự động lưu sau khi hoàn thành.</p>
 
-      <!-- Steps indicator -->
       <div class="steps">
         <div class="step">
           <div class="step-dot pending"></div>
@@ -52,7 +50,6 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORD
         </div>
       </div>
 
-      <!-- Form -->
       <form id="getkeyForm" action="start.php" method="POST">
         <label class="field-label">CHỌN ỨNG DỤNG</label>
         <div class="select-wrapper" id="selectWrapper">
@@ -67,9 +64,9 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORD
                  value="<?= !empty($apps) ? htmlspecialchars($apps[0]['app_id']) : '' ?>">
           <div class="dropdown" id="dropdown">
             <?php foreach ($apps as $app): ?>
-            <div class="dropdown-item" data-id="<?= htmlspecialchars($app['app_id']) ?>">
-              <?= htmlspecialchars($app['app_name']) ?>
-            </div>
+              <div class="dropdown-item" data-id="<?= htmlspecialchars($app['app_id']) ?>">
+                <?= htmlspecialchars($app['app_name']) ?>
+              </div>
             <?php endforeach; ?>
           </div>
         </div>
@@ -85,10 +82,10 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status='active' ORD
         </button>
       </form>
 
-    </div><!-- /card -->
+    </div>
   </main>
 </div>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/css/js/main.js"></script>
 </body>
 </html>
