@@ -6,25 +6,30 @@
   <title>GetKey — KillAuth</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --surface: #121a2b;
-      --surface-2: #172233;
+      --bg: #08111d;
+      --bg-2: #0e1a2b;
+      --surface: rgba(18, 28, 43, 0.9);
+      --surface-2: rgba(24, 37, 56, 0.95);
       --border: rgba(255,255,255,0.08);
       --text: #edf5ff;
-      --muted: #a7b1c2;
-      --cyan: #47d6ff;
-      --green: #32d59a;
-      --amber: #f5b84b;
-      --shadow: rgba(0, 0, 0, 0.35);
+      --muted: #aac0d7;
+      --cyan: #4fd7ff;
+      --green: #3ee0a2;
+      --violet: #7b8bff;
+      --amber: #f7c56b;
+      --danger: #ff7c7c;
+      --shadow: rgba(2, 6, 12, 0.7);
     }
 
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top, rgba(79, 215, 255, 0.12), transparent 35%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
@@ -33,76 +38,93 @@
       padding: 24px;
     }
 
-    .wrap {
+    .card {
       width: min(100%, 440px);
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 24px 64px var(--shadow), 0 0 25px rgba(71,214,255,0.08);
-      padding: 28px 22px;
+      border-radius: 24px;
+      box-shadow: 0 24px 80px var(--shadow), 0 0 40px rgba(79, 215, 255, 0.08);
+      padding: 30px 22px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% -20%, rgba(79, 215, 255, 0.16), transparent 40%);
+      pointer-events: none;
     }
 
     .logo {
+      position: relative;
       text-align: center;
-      font-size: clamp(1.7rem, 4vw, 2.2rem);
-      font-weight: 800;
-      letter-spacing: 0.05em;
+      font-size: clamp(2rem, 6vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
       margin-bottom: 10px;
-      background: linear-gradient(135deg, var(--cyan), #7b8cff);
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
     .subtitle {
+      position: relative;
       text-align: center;
       color: var(--muted);
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       font-size: 14px;
     }
 
-    .badge {
+    .pill {
+      position: relative;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
       font-size: 11px;
-      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 7px 12px;
+      font-weight: 800;
       border-radius: 999px;
-      background: rgba(71,214,255,0.1);
+      background: rgba(79, 215, 255, 0.09);
+      border: 1px solid rgba(79, 215, 255, 0.25);
       color: var(--cyan);
-      border: 1px solid rgba(71,214,255,0.25);
-      margin-bottom: 18px;
     }
 
     .panel {
+      position: relative;
       background: rgba(255,255,255,0.02);
       border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 18px 16px;
       margin-bottom: 18px;
     }
 
-    .title {
+    .panel .title {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 6px;
     }
 
-    .desc {
+    .panel .desc {
       color: var(--muted);
+      font-size: 13px;
       line-height: 1.6;
-      font-size: 14px;
     }
 
     .chips {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin: 18px 0;
+      margin-bottom: 20px;
+      color: var(--muted);
     }
 
     .chip {
@@ -110,96 +132,108 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 7px 10px;
+      padding: 7px 11px;
       border-radius: 999px;
       background: rgba(255,255,255,0.04);
-      color: var(--text);
       border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
       font-size: 12px;
+      font-weight: 600;
     }
 
     .chip.green {
-      background: rgba(50,213,154,0.08);
-      border-color: rgba(50,213,154,0.2);
+      background: rgba(62,224,162,0.08);
+      border-color: rgba(62,224,162,0.22);
       color: var(--green);
     }
 
     label {
+      position: relative;
       display: block;
       margin-bottom: 8px;
-      color: var(--muted);
       font-size: 11px;
+      color: var(--muted);
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     input, button {
+      position: relative;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.08);
       font: inherit;
     }
 
     input {
-      background: var(--surface-2);
+      background: rgba(15, 23, 36, 0.9);
       color: var(--text);
       padding: 14px 14px;
-      outline: none;
       margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
+    input::placeholder { color: rgba(170, 192, 215, 0.7); }
     input:focus {
-      border-color: rgba(71,214,255,0.5);
-      box-shadow: 0 0 0 3px rgba(71,214,255,0.12);
+      border-color: rgba(79, 215, 255, 0.5);
+      box-shadow: 0 0 0 3px rgba(79, 215, 255, 0.1);
     }
 
     button {
-      background: linear-gradient(135deg, #2dc2ff, #53d0ff);
-      color: #09131d;
-      padding: 14px 16px;
-      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      color: #06121d;
+      padding: 15px 18px;
+      font-weight: 900;
       cursor: pointer;
+      border: none;
+      box-shadow: 0 14px 28px rgba(79, 215, 255, 0.18);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 10px 30px rgba(71,214,255,0.2);
     }
 
     button:hover {
       transform: translateY(-1px);
+      box-shadow: 0 18px 30px rgba(79, 215, 255, 0.22);
     }
 
-    .alert {
-      margin-top: 12px;
-      background: rgba(245,184,75,0.08);
-      border: 1px solid rgba(245,184,75,0.2);
-      color: #ffd588;
+    .note {
+      position: relative;
+      margin-top: 18px;
+      padding: 12px 14px;
       border-radius: 12px;
-      padding: 10px 12px;
+      border: 1px solid rgba(247, 197, 107, 0.3);
+      background: rgba(247, 197, 107, 0.08);
+      color: #f9d488;
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.55;
+    }
+
+    .loading {
+      opacity: 0.8;
+      pointer-events: none;
     }
 
     @media (max-width: 480px) {
-      .wrap { padding: 22px 16px; }
+      .card { padding: 24px 16px; }
+      .panel { padding: 16px 12px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="card">
     <div class="logo">GetKey</div>
     <div class="subtitle">Chọn ứng dụng để nhận mã kích hoạt</div>
 
-    <div class="badge">
-      <span>12 Giờ</span>
-    </div>
+    <div class="pill">12 Giờ</div>
 
     <div class="panel">
       <div class="title">Key 12 Giờ</div>
-      <div class="desc">Vượt 1 link bypass — key sẽ được cấp tự động sau khi hoàn thành.</div>
+      <div class="desc">Mở link Layma trực tiếp, vượt xong rồi hệ thống tự động quay lại để cấp key.</div>
     </div>
 
     <div class="chips">
-      <span class="chip">Bypass 1</span>
+      <span class="chip">Layma</span>
       <span>→</span>
       <span class="chip green">Nhận Key</span>
     </div>
@@ -210,38 +244,23 @@
       <button type="submit">Lấy Key 12 Giờ</button>
     </form>
 
-    <div class="alert">
-      Sau khi bấm lấy key, trang sẽ mở link bypass Layma. Sau khi hoàn thành, hệ thống sẽ tự động quay lại để nhận key.
+    <div class="note">
+      Bước thực hiện: chọn app → mở link Layma → vượt xong → tự động quay lại để nhận key.
     </div>
   </div>
 
   <script>
     (function () {
-      const hash = window.location.hash || '';
-      const target = hash.startsWith('#') ? hash.slice(1) : hash;
-
-      if (target && /^https?:\/\//i.test(target)) {
-        try {
-          const decoded = decodeURIComponent(target);
-          if (/^https?:\/\//i.test(decoded)) {
-            window.location.replace(decoded);
-            return;
-          }
-        } catch (e) {
-          // bỏ qua
-        }
-      }
-
       const form = document.getElementById('getKeyForm');
-      if (form) {
-        form.addEventListener('submit', function () {
-          const btn = form.querySelector('button');
-          if (btn) {
-            btn.disabled = true;
-            btn.textContent = 'Đang xử lý...';
-          }
-        });
-      }
+      if (!form) return;
+
+      form.addEventListener('submit', function () {
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.classList.add('loading');
+          btn.textContent = 'Đang xử lý...';
+        }
+      });
     })();
   </script>
 </body>
