@@ -17,7 +17,8 @@ define('LAYMA_TOKEN',   '2cddb02194b74ac4fbb46dfe153ebc41');
 define('LAYMA_API',     'https://api.layma.net/api/admin/shortlink/quicklink');
 
 // Trang callback sau khi vượt link xong
-define('CALLBACK_URL',  SITE_URL . '/getkey/callback.php');
+// Lưu ý: repo hiện tại deploy ở root domain, không nằm trong /getkey/
+define('CALLBACK_URL',  SITE_URL . 'callback.php');
 
 // ============================================================
 //  Kết nối DB (MySQLi)
