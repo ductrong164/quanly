@@ -9,7 +9,7 @@ define('DB_PASS', 'AVNS_2bfFk9QgVOlKkLdPu8y');
 define('DB_NAME', 'defaultdb');
 define('DB_PORT', '12196');
 
-define('SITE_URL',      'https://quanly.onrender.com');
+define('SITE_URL',      'https://quanly-r5cj.onrender.com/');
 define('KEY_EXPIRE_H',  12);   // key sống bao nhiêu giờ
 
 // Layma shortlink
