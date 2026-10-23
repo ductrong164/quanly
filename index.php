@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-$apps = db()->query("SELECT app_id, app_name FROM apps WHERE status = 'active' ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
+// Lấy danh sách app đang active
+$apps = db()->query("SELECT app_id, app_name FROM apps WHERE active = 1 ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -42,7 +43,6 @@ $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status = 'active' O
 
         <div class="select-wrapper" id="selectWrapper">
           <div class="select-display" id="selectDisplay">— Chọn App —</div>
-
           <input type="hidden" name="app_id" id="appIdInput" value="">
 
           <div class="dropdown" id="dropdown">

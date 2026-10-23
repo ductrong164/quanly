@@ -9,7 +9,7 @@ if ($app_id === '' || $hwid === '') {
     exit;
 }
 
-$stmt = db()->prepare("SELECT app_id FROM apps WHERE app_id = ? AND status = 'active' LIMIT 1");
+$stmt = db()->prepare("SELECT app_id FROM apps WHERE app_id = ? AND active = 1 LIMIT 1");
 $stmt->bind_param('s', $app_id);
 $stmt->execute();
 
@@ -18,7 +18,7 @@ if ($stmt->get_result()->num_rows === 0) {
     exit;
 }
 
-$stmt2 = db()->prepare("SELECT key_value, expires_at FROM issued_keys WHERE app_id = ? AND device_hash = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1");
+$stmt2 = db()->prepare("SELECT key_value, expires_at FROM `keys` WHERE app_id = ? AND hwid = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1");
 $stmt2->bind_param('ss', $app_id, $hwid);
 $stmt2->execute();
 $existing = $stmt2->get_result()->fetch_assoc();
@@ -29,8 +29,13 @@ if ($existing) {
 }
 
 $token = bin2hex(random_bytes(24));
+$db = db();
+$stmt3 = $db->prepare("INSERT INTO pending_sessions (token, app_id, hwid) VALUES (?, ?, ?)");
+$stmt3->bind_param('sss', $token, $app_id, $hwid);
+$stmt3->execute();
+
 $callback = CALLBACK_URL . '?token=' . urlencode($token);
-$backup = SITE_URL . 'index.php';
+$backup   = SITE_URL . 'index.php';
 
 $short = null;
 
@@ -68,16 +73,9 @@ if (function_exists('curl_init')) {
 }
 
 if (!$short || !preg_match('#^https?://#i', $short)) {
-    // Fallback: nếu Layma không hoạt động, vẫn cho user tiếp tục lấy key
     header('Location: callback.php?token=' . urlencode($token));
     exit;
 }
-
-$expires_at = date('Y-m-d H:i:s', time() + 12 * 3600);
-$db = db();
-$stmt3 = $db->prepare("INSERT INTO getkey_sessions (session_token, app_id, device_hash, duration_h, step, link1, expires_at) VALUES (?, ?, ?, 12, 0, ?, ?)");
-$stmt3->bind_param('sssss', $token, $app_id, $hwid, $short, $expires_at);
-$stmt3->execute();
 
 header('Location: ' . $short);
 exit;
