@@ -15,8 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // HMAC sig: only Layma passes this through — user cannot forge it
             $sig        = generateBypassSig($token);
             $dest1      = SITE_URL . '/getkey/step.php?t=' . $token . '&step=verify1&sig=' . $sig;
-            // Dùng GitHub Pages làm redirector — không phụ thuộc Layma
-            $link1Short = GITHUB_BYPASS_URL . '#' . urlencode($dest1);
+            // Prefer Layma short link; fallback to GitHub Pages hash redirect if the shortener is unavailable.
+            $fallbackLink1 = GITHUB_BYPASS_URL . '#' . urlencode($dest1);
+            $link1Short    = shortenUrl($dest1, $fallbackLink1);
 
             $db->prepare("INSERT INTO getkey_sessions (session_token,app_id,duration_h,step,link1,link2,expires_at) VALUES (?,?,12,0,?,NULL,?)")
                ->execute([$token, $appId, $link1Short, $exp]);
@@ -113,7 +114,7 @@ $err = isset($_GET['err']);
     </div>
     <div class="bypass-chips">
       <span class="chip">
-        <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/></svg>
+        <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4.243 4.243a4 4 0 105.657 5.657l1.414-1.414"/></svg>
         Bypass 1
       </span>
       <span class="chip-sep">→</span>
@@ -133,7 +134,7 @@ $err = isset($_GET['err']);
         </select>
       </div>
       <button type="submit" class="btn btn-primary btn-block" style="font-size:var(--f-sm);padding:.75rem 1rem">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4.243 4.243a4 4 0 105.657 5.657l1.414-1.414"/></svg>
         Lấy Key 12 Giờ
       </button>
     </form>
