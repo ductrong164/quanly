@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GetKey — KillAuth</title>
+  <title>Đang chuyển hướng...</title>
   <style>
     :root {
       --bg: #08111d;
@@ -16,26 +16,21 @@
       --cyan: #4fd7ff;
       --green: #3ee0a2;
       --violet: #7b8bff;
-      --amber: #f7c56b;
-      --danger: #ff7c7c;
       --shadow: rgba(2, 6, 12, 0.7);
     }
 
     * { box-sizing: border-box; }
+
     html, body {
       margin: 0;
       min-height: 100vh;
+      display: grid;
+      place-items: center;
       background:
         radial-gradient(circle at top, rgba(79, 215, 255, 0.12), transparent 35%),
         linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      display: grid;
-      place-items: center;
-      padding: 24px;
     }
 
     .card {
@@ -44,9 +39,10 @@
       border: 1px solid var(--border);
       border-radius: 24px;
       box-shadow: 0 24px 80px var(--shadow), 0 0 40px rgba(79, 215, 255, 0.08);
-      padding: 30px 22px 24px;
+      padding: 26px 22px;
       position: relative;
       overflow: hidden;
+      text-align: center;
     }
 
     .card::before {
@@ -59,208 +55,82 @@
 
     .logo {
       position: relative;
-      text-align: center;
       font-size: clamp(2rem, 6vw, 2.5rem);
       font-weight: 900;
       letter-spacing: 0.08em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: linear-gradient(135deg, var(--cyan), var(--violet));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .subtitle {
+    .message {
       position: relative;
-      text-align: center;
       color: var(--muted);
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .pill {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 12px;
-      margin-bottom: 18px;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 800;
-      border-radius: 999px;
-      background: rgba(79, 215, 255, 0.09);
-      border: 1px solid rgba(79, 215, 255, 0.25);
-      color: var(--cyan);
-    }
-
-    .panel {
-      position: relative;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 18px 16px;
-      margin-bottom: 18px;
-    }
-
-    .panel .title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .panel .desc {
-      color: var(--muted);
-      font-size: 13px;
+      font-size: 15px;
       line-height: 1.6;
-    }
-
-    .chips {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
       margin-bottom: 20px;
-      color: var(--muted);
     }
 
-    .chip {
+    .spinner {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.08);
+      border-top-color: var(--cyan);
+      border-right-color: var(--violet);
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 7px 11px;
+      gap: 8px;
+      padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text);
+      border: 1px solid rgba(79, 215, 255, 0.25);
+      background: rgba(79, 215, 255, 0.09);
+      color: var(--cyan);
       font-size: 12px;
-      font-weight: 600;
-    }
-
-    .chip.green {
-      background: rgba(62,224,162,0.08);
-      border-color: rgba(62,224,162,0.22);
-      color: var(--green);
-    }
-
-    label {
-      position: relative;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 11px;
-      color: var(--muted);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 800;
-    }
-
-    input, button {
-      position: relative;
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      font: inherit;
-    }
-
-    input {
-      background: rgba(15, 23, 36, 0.9);
-      color: var(--text);
-      padding: 14px 14px;
-      margin-bottom: 14px;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    input::placeholder { color: rgba(170, 192, 215, 0.7); }
-    input:focus {
-      border-color: rgba(79, 215, 255, 0.5);
-      box-shadow: 0 0 0 3px rgba(79, 215, 255, 0.1);
-    }
-
-    button {
-      background: linear-gradient(135deg, var(--cyan), var(--violet));
-      color: #06121d;
-      padding: 15px 18px;
-      font-weight: 900;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 14px 28px rgba(79, 215, 255, 0.18);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 30px rgba(79, 215, 255, 0.22);
-    }
-
-    .note {
-      position: relative;
-      margin-top: 18px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(247, 197, 107, 0.3);
-      background: rgba(247, 197, 107, 0.08);
-      color: #f9d488;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .loading {
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    @media (max-width: 480px) {
-      .card { padding: 24px 16px; }
-      .panel { padding: 16px 12px; }
     }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="logo">GetKey</div>
-    <div class="subtitle">Chọn ứng dụng để nhận mã kích hoạt</div>
-
-    <div class="pill">12 Giờ</div>
-
-    <div class="panel">
-      <div class="title">Key 12 Giờ</div>
-      <div class="desc">Mở link Layma trực tiếp, vượt xong rồi hệ thống tự động quay lại để cấp key.</div>
-    </div>
-
-    <div class="chips">
-      <span class="chip">Layma</span>
-      <span>→</span>
-      <span class="chip green">Nhận Key</span>
-    </div>
-
-    <form id="getKeyForm" method="POST" action="https://quanly-r5cj.onrender.com/getkey/index.php">
-      <label for="app_id">Chọn App ID</label>
-      <input id="app_id" name="app_id" type="text" placeholder="Nhập App ID" required />
-      <button type="submit">Lấy Key 12 Giờ</button>
-    </form>
-
-    <div class="note">
-      Bước thực hiện: chọn app → mở link Layma → vượt xong → tự động quay lại để nhận key.
-    </div>
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="message">Đang chuyển hướng tới liên kết bypass...</div>
+    <div class="status">Redirecting</div>
   </div>
 
   <script>
     (function () {
-      const form = document.getElementById('getKeyForm');
-      if (!form) return;
+      const hash = window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : '';
+      const target = hash.trim();
 
-      form.addEventListener('submit', function () {
-        const btn = form.querySelector('button[type="submit"]');
-        if (btn) {
-          btn.classList.add('loading');
-          btn.textContent = 'Đang xử lý...';
-        }
-      });
+      if (!target) {
+        document.querySelector('.message').textContent = 'Không có liên kết chuyển hướng. Vui lòng quay lại trang lấy key.';
+        setTimeout(function () {
+          window.location.href = 'https://killcheat.onrender.com/getkey';
+        }, 1800);
+        return;
+      }
+
+      setTimeout(function () {
+        window.location.replace(target);
+      }, 1200);
     })();
   </script>
 </body>
