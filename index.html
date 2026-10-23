@@ -34,11 +34,12 @@
 
   <script>
     (function () {
+      const backendUrl = 'https://quanly-r5cj.onrender.com/getkey/index.php';
       const hash = window.location.hash || '';
       const target = hash.startsWith('#') ? hash.slice(1) : hash;
 
       if (!target) {
-        document.body.innerHTML = '<div class="box"><div class="title">Không có liên kết để chuyển hướng</div><div class="sub">Vui lòng quay lại trang lấy key.</div></div>';
+        window.location.replace(backendUrl);
         return;
       }
 
@@ -53,7 +54,7 @@
       }
 
       // fallback nếu hash không phải URL hợp lệ
-      window.location.replace(target);
+      window.location.replace(backendUrl);
     })();
   </script>
 </body>
