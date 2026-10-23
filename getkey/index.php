@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // HMAC sig: only Layma passes this through — user cannot forge it
             $sig        = generateBypassSig($token);
             $dest1      = SITE_URL . '/getkey/step.php?t=' . $token . '&step=verify1&sig=' . $sig;
-            // GitHub Pages redirector — không phụ thuộc Layma, luôn online
-            // User bắt buộc mở trang GitHub → đợi 2s → tự redirect về dest1 có sig
+            // Dùng GitHub Pages làm redirector — không phụ thuộc Layma
             $link1Short = GITHUB_BYPASS_URL . '#' . urlencode($dest1);
 
             $db->prepare("INSERT INTO getkey_sessions (session_token,app_id,duration_h,step,link1,link2,expires_at) VALUES (?,?,12,0,?,NULL,?)")

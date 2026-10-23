@@ -74,7 +74,7 @@ function showLandingPage(string $laymaLink, string $token, int $dur, string $err
         strpos($laymaLink, 'layma.net') !== false ||
         strpos($laymaLink, 'layma.io')  !== false ||
         strpos($laymaLink, 'lm.la')     !== false ||
-        strpos($laymaLink, 'github.io') !== false   // GitHub Pages redirector
+        strpos($laymaLink, 'github.io') !== false
     );
     ?><!DOCTYPE html>
 <html lang="vi">
