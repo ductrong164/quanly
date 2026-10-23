@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-// Lấy danh sách app đang active
 $apps = db()->query("SELECT app_id, app_name FROM apps WHERE status = 'active' ORDER BY app_name")->fetch_all(MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>

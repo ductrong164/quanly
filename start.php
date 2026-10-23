@@ -18,7 +18,7 @@ if ($stmt->get_result()->num_rows === 0) {
     exit;
 }
 
-$stmt2 = db()->prepare("SELECT key_value, expires_at FROM keys WHERE app_id = ? AND device_hash = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1");
+$stmt2 = db()->prepare("SELECT key_value, expires_at FROM issued_keys WHERE app_id = ? AND device_hash = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1");
 $stmt2->bind_param('ss', $app_id, $hwid);
 $stmt2->execute();
 $existing = $stmt2->get_result()->fetch_assoc();

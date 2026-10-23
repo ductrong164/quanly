@@ -14,7 +14,6 @@ define('KEY_EXPIRE_H', 12);
 
 define('LAYMA_TOKEN', '2cddb02194b74ac4fbb46dfe153ebc41');
 define('LAYMA_API', 'https://api.layma.net/api/admin/shortlink/quicklink');
-
 define('CALLBACK_URL', SITE_URL . 'callback.php');
 
 function db(): mysqli {
@@ -53,7 +52,7 @@ function init_tables(): void {
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-    $db->query("CREATE TABLE IF NOT EXISTS `keys` (
+    $db->query("CREATE TABLE IF NOT EXISTS `issued_keys` (
         `id` INT AUTO_INCREMENT PRIMARY KEY,
         `app_id` VARCHAR(64) NOT NULL,
         `key_value` VARCHAR(128) NOT NULL UNIQUE,

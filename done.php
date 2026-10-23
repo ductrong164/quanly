@@ -9,7 +9,7 @@ if ($key === '') {
     exit;
 }
 
-$stmt = db()->prepare("SELECT k.key_value, k.expires_at, a.app_name FROM keys k JOIN apps a ON a.app_id = k.app_id WHERE k.key_value = ? LIMIT 1");
+$stmt = db()->prepare("SELECT k.key_value, k.expires_at, a.app_name FROM issued_keys k JOIN apps a ON a.app_id = k.app_id WHERE k.key_value = ? LIMIT 1");
 $stmt->bind_param('s', $key);
 $stmt->execute();
 $info = $stmt->get_result()->fetch_assoc();
