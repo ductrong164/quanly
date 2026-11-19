@@ -1,0 +1,7 @@
+<Files "_template.php">
+    Order Allow,Deny
+        Deny from all
+        </Files>
+
+        # Chặn truy cập file ảo (nếu có)
+        Options -Indexes
